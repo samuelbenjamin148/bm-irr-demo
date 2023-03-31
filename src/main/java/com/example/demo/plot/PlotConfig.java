@@ -1,6 +1,8 @@
 package com.example.demo.plot;
 
 import com.example.demo.repository.PlotRepository;
+import com.example.demo.repository.SensorRepository;
+import com.example.demo.sensor.Sensor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +13,8 @@ import java.util.List;
 public class PlotConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner(PlotRepository repository) {
+    CommandLineRunner commandLineRunner(
+            SensorRepository sensorRepository, PlotRepository plotRepository) {
         return args -> {
                 Plot plot1 = new Plot(
                         "plot1",
@@ -28,8 +31,27 @@ public class PlotConfig {
                     100
             );
 
-            repository.saveAll(
-                    List.of(plot1, plot2));
+            Sensor sensor1 = new Sensor(
+                    "sensor1",
+                    "10.10.10.10",
+                    1,
+                    Sensor.Status.ACTIVE,plot1) ;
+
+            Sensor sensor2 = new Sensor(
+                    "sensor2",
+                    "20.20.20.20",
+                    1,
+                    Sensor.Status.ACTIVE, plot2);
+
+            Sensor sensor3 = new Sensor(
+                    "sensor3",
+                    "30.30.30.30",
+                    1,
+                    Sensor.Status.INACTIVE, plot1);
+
+            plotRepository.saveAll(List.of(plot1, plot2));
+            sensorRepository.saveAll(
+                    List.of(sensor1, sensor2, sensor3));
         };
     }
 }

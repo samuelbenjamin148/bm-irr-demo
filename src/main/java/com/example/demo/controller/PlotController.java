@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.plot.Plot;
+import com.example.demo.sensor.Sensor;
 import com.example.demo.service.PlotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,15 @@ public class PlotController {
             @RequestParam(required = false) Integer length) {
         plotService.updatePlot(plotID, name, width, length);
     }
+
+    @PutMapping(path = "{plotID}/sensor/{sensorID}")
+    Sensor registerSensorToPlot(
+            @PathVariable Long plotID,
+            @PathVariable Long sensorID) {
+        return plotService.registerSensor(plotID, sensorID);
+    }
+
+
 
 }
 

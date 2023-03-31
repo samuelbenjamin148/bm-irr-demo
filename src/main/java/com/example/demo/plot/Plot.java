@@ -1,10 +1,17 @@
 package com.example.demo.plot;
 
+import com.example.demo.scheduler.Schedule;
+import com.example.demo.sensor.Sensor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
 public class Plot {
+
     @Id
     @SequenceGenerator(
             name = "plot_sequence",
@@ -16,12 +23,36 @@ public class Plot {
             generator = "plot_sequence"
     )
 
+    @Column(name = "id")
     private Long id;
+    @Column(name="plot_name")
     private String name;
     private Integer width;
     private Integer length;
     private Integer xCoordinate;
     private Integer yCoordinate;
+    private String  lastIrrigated = null;
+
+    public Set<Sensor> getRegisteredSensors() {
+        return registeredSensors;
+    }
+
+    @JsonIgnore
+    @OneToMany(
+            mappedBy="plot",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Sensor> registeredSensors = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(
+            mappedBy="plot",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+
+    private Set<Schedule> registeredSchedules = new HashSet<>();
 
     public Plot() {
     }
@@ -102,6 +133,15 @@ public class Plot {
         this.yCoordinate = yCoordinate;
     }
 
+    public String getLastIrrigated() {
+        return lastIrrigated;
+    }
+
+    public void setLastIrrigated(String lastIrrigated) {
+        this.lastIrrigated = lastIrrigated;
+
+    }
+
     @Override
     public String toString() {
         return "Plot{" +
@@ -111,6 +151,9 @@ public class Plot {
                 ", length=" + length +
                 ", xCoordinate=" + xCoordinate +
                 ", yCoordinate=" + yCoordinate +
+                ", lastIrrigated='" + lastIrrigated + '\'' +
+                ", registeredSensors=" + registeredSensors +
+                ", registeredSchedules=" + registeredSchedules +
                 '}';
     }
 }

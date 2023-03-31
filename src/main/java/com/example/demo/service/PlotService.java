@@ -1,7 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.plot.Plot;
+import com.example.demo.sensor.Sensor;
+import com.example.demo.sensor.SensorForm;
 import com.example.demo.repository.PlotRepository;
+import com.example.demo.repository.SensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,12 +16,14 @@ import java.util.Optional;
 @Service
 public class PlotService {
 
-    @Autowired
-    public PlotService(PlotRepository plotRepository) {
-        this.plotRepository = plotRepository;
-    }
-
     private final PlotRepository plotRepository;
+    private final SensorRepository sensorRepository;
+
+    @Autowired
+    public PlotService(PlotRepository plotRepository, SensorRepository sensorRepository) {
+        this.plotRepository = plotRepository;
+        this.sensorRepository = sensorRepository;
+    }
 
     public List<Plot> getPlots() {
         return plotRepository.findAll();
@@ -71,5 +76,48 @@ public class PlotService {
             plot.setWidth(length);
         }
 
+    }
+
+    @Transactional
+    public Sensor registerSensor(Long plotID, Long sensorID) {
+        Optional<Sensor> sensorOptional = sensorRepository.findById(sensorID);
+        if (!sensorOptional.isPresent()) {
+            throw new IllegalStateException("" +
+                    "sensor with ID = " + sensorID + " does not exist");
+        }
+
+        Optional<Plot> plotOptional = plotRepository.findById(plotID);
+        if (!plotOptional.isPresent()) {
+            throw new IllegalStateException("" +
+                    "Plot with ID = " + plotID + " does not exist");
+        }
+        sensorOptional.get().registerPlot(plotOptional.get());
+        return sensorOptional.get();
+
+    }
+
+    public List<Sensor> getSensors() {
+        return sensorRepository.findAll();
+    }
+
+    public void addNewSensor(SensorForm sensor) {
+        if (sensorRepository.findSensorByIP(sensor.getIpAddress()).isPresent()) {
+            throw new IllegalStateException(
+                    "Sensor with IP "
+                            + sensor.getIpAddress()
+                            + " address already exists");
+        }
+
+        Optional<Plot> optionalPlot = plotRepository.findById(sensor.getPlotID());
+        if (!optionalPlot.isPresent()) {
+            throw new IllegalStateException("Plot ID is not a valid plot");
+        }
+        Sensor mSensor = new Sensor();
+        mSensor.setName(sensor.getName());
+        mSensor.setIpAddress(sensor.getIpAddress());
+        mSensor.setMaxRetries(sensor.getMaxRetries());
+        mSensor.setStatus(sensor.getStatus());
+        mSensor.setPlot(optionalPlot.get());
+        sensorRepository.save(mSensor);
     }
 }
