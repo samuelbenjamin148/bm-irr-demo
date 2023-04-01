@@ -13,4 +13,8 @@ public interface PlotRepository
 
     @Query("SELECT s FROM Plot s WHERE s.name = ?1")
     Optional<Plot> findPlotByName(String name);
+
+    @Query("SELECT s FROM Plot s WHERE s.id = ?1")
+    Optional<Plot> findPlotById(Long id);
+
 }

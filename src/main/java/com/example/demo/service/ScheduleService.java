@@ -30,6 +30,7 @@ public class ScheduleService {
         this.scheduleRepository = scheduleRepository;
     }
 
+    //this is a hashmap to keep track the jobs Vs the taskId
     Map<Long, ScheduledFuture<?>> jobsMap = new HashMap<>();
 
     public List<Schedule> getSchedules() {
@@ -83,6 +84,6 @@ public class ScheduleService {
         }
         scheduledTask.cancel(true);
         jobsMap.put(jobId, null);
-        scheduleRepository.removeSchdulebyID(jobId);
+        scheduleRepository.removeSchedulebyID(jobId);
     }
 }

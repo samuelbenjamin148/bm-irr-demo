@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.plot.Plot;
 import com.example.demo.sensor.Sensor;
 import com.example.demo.service.PlotService;
+import com.example.demo.service.SensorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +14,14 @@ import java.util.List;
 public class PlotController {
 
     private final PlotService plotService;
+    private final SensorService sensorService;
 
     @Autowired
-    public PlotController(PlotService plotService) {
+    public PlotController(
+            PlotService plotService,
+            SensorService sensorService) {
         this.plotService = plotService;
+        this.sensorService = sensorService;
     }
 
     @GetMapping
@@ -47,7 +52,7 @@ public class PlotController {
     Sensor registerSensorToPlot(
             @PathVariable Long plotID,
             @PathVariable Long sensorID) {
-        return plotService.registerSensor(plotID, sensorID);
+        return sensorService.registerSensor(plotID, sensorID);
     }
 
 

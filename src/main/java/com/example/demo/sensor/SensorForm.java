@@ -1,6 +1,7 @@
 package com.example.demo.sensor;
 
 public class SensorForm {
+
     private String name;
     private String ipAddress;
     private Integer maxRetries;

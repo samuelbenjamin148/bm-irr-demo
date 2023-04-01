@@ -8,18 +8,28 @@ import jakarta.persistence.*;
 @Table
 public class Schedule {
 
+    public Schedule(Long taskId, String cronExpression, Integer waterAmount, Integer duration, Plot plot) {
+        this.taskId = taskId;
+        this.cronExpression = cronExpression;
+        this.waterAmount = waterAmount;
+        this.duration = duration;
+        this.plot = plot;
+    }
 
     @Id
     @Column(name = "Id")
     private Long taskId;
 
     private String cronExpression;
-    private Integer waterAmount;
-    private Integer duration; // in seconds
+    private Integer waterAmount; //better for a double to be more precise
+    private Integer duration; // in minutes
 
     @ManyToOne()
     @JoinColumn(name="plot_id", referencedColumnName = "id", nullable = false)
     private Plot plot;
+
+    public Schedule() {
+    }
 
 
     public Long getTaskId() {

@@ -13,5 +13,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     @Transactional
     @Modifying
     @Query("DELETE FROM Schedule WHERE Id = :Id")
-    Integer removeSchdulebyID(Long Id);
+    Integer removeSchedulebyID(Long Id);
 }
