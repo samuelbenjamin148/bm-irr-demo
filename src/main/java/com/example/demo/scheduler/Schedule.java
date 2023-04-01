@@ -20,9 +20,10 @@ public class Schedule {
     @Column(name = "Id")
     private Long taskId;
 
+    @Column(nullable = false)
     private String cronExpression;
-    private Integer waterAmount; //better for a double to be more precise
-    private Integer duration; // in minutes
+    private Integer waterAmount = 1; //better for a double to be more precise // in Ml
+    private Integer duration = 1 ; // in minutes
 
     @ManyToOne()
     @JoinColumn(name="plot_id", referencedColumnName = "id", nullable = false)

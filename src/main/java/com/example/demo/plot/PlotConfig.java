@@ -40,40 +40,27 @@ public class PlotConfig {
             Sensor sensor1 = new Sensor(
                     "sensor1",
                     "10.10.10.10",
-                    1,
+                    10,
                     Sensor.Status.ACTIVE,plot1) ;
 
             Sensor sensor2 = new Sensor(
                     "sensor2",
                     "20.20.20.20",
-                    1,
+                    10,
                     Sensor.Status.ACTIVE, plot2);
 
             Sensor sensor3 = new Sensor(
                     "sensor3",
                     "30.30.30.30",
-                    1,
+                    10,
                     Sensor.Status.INACTIVE, plot1);
 
-            Schedule schedule1 = new Schedule(1000L,
-                    "*/5 * * * * *",
-                     1,
-                    1,
-                     plot1
-            );
-            Schedule schedule2 = new Schedule(1002L,
-                    "*/10 * * * * *",
-                    1,
-                    1,
-                    plot2
-            );
 
             plotRepository.saveAll(
                     List.of(plot1, plot2));
             sensorRepository.saveAll(
                     List.of(sensor1, sensor2, sensor3));
-            scheduleRepository.saveAll(
-                    List.of(schedule1, schedule2));
+
         };
     }
 }

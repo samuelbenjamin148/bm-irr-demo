@@ -4,10 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class TaskDefinitionBean implements Runnable {
+public class SchedulerBean implements Runnable {
 
     private ScheduleForm schedule;
-
 
 
     public void run() {

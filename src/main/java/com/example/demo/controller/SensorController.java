@@ -37,4 +37,9 @@ public class SensorController {
         sensorService.irrigate(plotId, waterAmount, duration);
     }
 
+    @DeleteMapping(path= "{plotID}")
+    public void deleteSensor(@PathVariable("plotID") Long id) {
+        sensorService.deleteSensor(id);
+    }
+
 }

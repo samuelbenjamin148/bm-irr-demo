@@ -95,4 +95,12 @@ public class SensorService {
         }
 
     }
+
+    public void deleteSensor(Long id) {
+        if (!sensorRepository.existsById(id)) {
+            throw new IllegalStateException(
+                    "Sensor with Id" + id + " does not exist");
+        }
+        sensorRepository.deleteById(id);
+    }
 }

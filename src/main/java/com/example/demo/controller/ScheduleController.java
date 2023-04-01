@@ -3,7 +3,7 @@ package com.example.demo.controller;
 
 import com.example.demo.scheduler.Schedule;
 import com.example.demo.scheduler.ScheduleForm;
-import com.example.demo.scheduler.TaskDefinitionBean;
+import com.example.demo.scheduler.SchedulerBean;
 import com.example.demo.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ public class ScheduleController {
 
     @PostMapping(path="/schedule" , consumes = "application/json", produces="application/json")
     public void scheduleATask(@RequestBody ScheduleForm schedule) {
-        TaskDefinitionBean taskBean = new TaskDefinitionBean();
+        SchedulerBean taskBean = new SchedulerBean();
         taskBean.setTaskDefinition(schedule);
         taskSchedulingService.scheduleATask(schedule, taskBean);
     }

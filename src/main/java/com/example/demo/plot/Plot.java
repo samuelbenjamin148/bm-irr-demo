@@ -25,7 +25,7 @@ public class Plot {
 
     @Column(name = "id")
     private Long id;
-    @Column(name="plot_name")
+    @Column(name="plot_name", nullable =false)
     private String name;
     private Integer width;
     private Integer length;
